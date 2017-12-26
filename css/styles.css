@@ -1,0 +1,948 @@
+/* remove borders around images and links for IE */
+a img {
+    border: none;
+    outline: none;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+html {
+    font-family: sans-serif;
+}
+
+header {
+    height: 10%;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background: linear-gradient(to bottom, gray 97%, black 3%);
+    border-style: none;
+}
+
+body {
+    height: 100%;
+    padding-top: 5%;
+    background-color: white;
+    border-style: none;
+    text-align: center;
+}
+
+.arris_logo_wrapper, .page_selector, .user_info {
+    height: 100%;
+    width: 30%;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.arris_logo_wrapper img {
+    height: 30%;
+    cursor: pointer;
+}
+
+.page_selector_queue_link, .page_selector_list_link, .page_selector_svn_link, .page_selector_admin_link {
+    cursor: pointer;
+    color: orange;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 18px;
+}
+.page_selector_queue_link:hover, .page_selector_list_link:hover, .page_selector_svn_link:hover, .page_selector_admin_lin:hover {
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.user_info a {
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 18px;
+}
+.user_info:hover a {
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.background_queue_image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.2;
+}
+
+.login {
+    width: 30%;
+    height: 40%;
+    margin: auto;
+}
+.login_user_image_div {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login_user_image_div img {
+    height: 80%;
+    border: 1px solid black;
+}
+.login p {
+    text-align: justify;
+    color: red;
+}
+.login_forms_style {
+    height: 3em;
+    width: 90%;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 18px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.userinfo {
+    width: 50%;
+    height: 90%;
+    margin: auto;
+    border: 1px solid black;
+}
+.userinfo_table_div {
+    height: 80%;
+    width: 50%;
+    float: left;
+    text-align: left;
+}
+.userinfo_table_div table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+.userinfo_table_div td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+.userinfo_table_div tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.kaqueue {
+    width: 77%;
+    height: 77%;
+    margin: auto;
+}
+
+.kaqueue_tab {
+    height: 100%;
+    width: 100%;
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    font-size: 17px;
+    font-weight: bold;
+    font-style: normal;
+    background-color: #f1f1f1;
+    border: 3px solid black;
+}
+.kaqueue_tab li {
+    float: left;
+}
+.kaqueue_tab li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.kaqueue_tab li a:hover {
+    background-color: #ddd;
+}
+/*.kaqueue_tab li a:focus, .kaqueue_tab li a:active {
+    background-color: #ccc;
+}*/
+
+.kaqueue_table_div {
+    height: 100%;
+    width: 100%;
+    border: 3px solid black;
+    background: white;
+}
+.kaqueue_table_div table {
+    width: 100%;
+    border: 1px solid black;
+}
+.kaqueue_table_div tr {
+    width: 100%;
+    border:1px solid black;
+}
+.kaqueue_table_div th {
+    text-align:center;
+    background-color: #f1f1f1;
+    border:1px solid black;
+}
+.kaqueue_table_div td {
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+    border: 1px solid black;
+}
+
+.admin_table_div {
+    height: 100%;
+    width: 100%;
+    border: 3px solid black;
+    background: white;
+}
+.admin_table_div table {
+    width: 100%;
+    border: 1px solid black;
+}
+.admin_table_div tr {
+    width: 100%;
+    border:1px solid black;
+}
+.admin_table_div th {
+    text-align:center;
+    background-color: #f1f1f1;
+    border:1px solid black;
+}
+.admin_table_div td {
+    font-weight: normal;
+    font-style: bold;
+    font-size: 14px;
+    border:1px solid black;
+}
+
+.add_in_queue_styles {
+    height: 3em;
+    width: 30%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 18px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.add_in_queue_styles:hover {
+    background: grey;
+    border: 3px solid black;
+}
+
+.deliverylist {
+    width: 100%;
+    height: 100%;
+}
+.deliverylist_header {
+    height: 20px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 24px;
+}
+.deliverylist_explanation {
+    height: 75px;
+    width: 70%;
+    margin: auto;
+    text-align: left;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 16px;
+}
+
+.deliverylist_targets {
+    height: 30px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.deliverylist_settings {
+    height: 100%;
+    width: 5%;
+    float: left;
+}
+.deliverylist_settings img {
+    height: 100%;
+    width: auto;
+    cursor: pointer;
+    transition-duration: 1.0s;
+    -webkit-transition-duration: 1.0s;
+}
+.deliverylist_settings:hover img {
+    -webkit-animation: numbers360rotation 4s linear infinite;
+    -moz-animation: numbers360rotation 4s linear infinite;
+    animation: numbers360rotation 4s linear infinite;
+}
+@-moz-keyframes numbers360rotation { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes numbers360rotation { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes numbers360rotation { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.deliverylist_target_name {
+    height: 100%;
+    width: 30%;
+    float: left;
+}
+.deliverylist_target_selector {
+    height: 100%;
+    width: 100%;
+    float: left;
+    text-align: left;
+    cursor: pointer;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 22px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.deliverylist_target_buttons {
+    height: 100%;
+    width: 25%;
+    float: left;
+}
+.deliverylist_target_buttons button {
+    margin-left: 2%;
+    float: left;
+    cursor: pointer;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 18px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.deliverylist_add_new_delivery {
+    height: 100%;
+    width: 30%;
+    float: right;
+}
+.deliverylist_add_new_delivery button {
+    float: left;
+    cursor: pointer;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 20px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid black;
+}
+.deliverylist_add_new_delivery:hover button {
+    background-color: grey;
+    border: 3px solid black;
+}
+
+.deliverylist_table_style {
+    width: 100%;
+    background: white;
+    border: 1px solid black;
+}
+.deliverylist_table_style tr {
+    width: 100%;
+    border: 1px solid black;
+}
+.deliverylist_table_style th {
+    background-color: #f1f1f1;
+    border: 1px solid black;
+    text-align: center;
+}
+.deliverylist_table_style td {
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+    border: 1px solid black;
+}
+
+.deliverylist_actions_img {
+    width: 20%;
+    margin-right: 4%;
+    cursor: pointer;
+}
+
+.svncommits {
+    width: 100%;
+    height: 77%;
+}
+.svncommits h1, h2 {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.place_in_queue_div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: none;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+.place_in_queue_div:target {
+    display: block;
+    -webkit-animation: fade .6s;
+    -moz-animation: fade .6s;
+    animation: fade .6s;
+}
+
+.whiteboard_container {
+    display: inline-block;
+
+    height: 620px;
+    width: 1100px;
+
+    margin: auto;
+    margin-top: 4%;
+
+    background-color: white;
+    text-align: center;
+
+    font-family: "Lucida Console", Monospace;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 16px;
+
+    border: 3px solid black;
+
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+
+    -webkit-box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.22), 0px 19px 60px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.22), 0px 19px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.22), 0px 19px 60px rgba(0, 0, 0, 0.3);
+
+    -webkit-animation: fade .8s;
+    -moz-animation: fade .8s;
+    animation: fade .8s;
+}
+.whiteboard_container_dls {
+    height: 500px;
+    width: 600px;
+}
+.whiteboard_container_processing {
+    height: 300px;
+    width: 300px;
+    background-color: transparent;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.whiteboard_container_warning {
+    height: 600px;
+    width: 450px;
+}
+.whiteboard_container_warning textarea, .whiteboard_container_warning select, .whiteboard_container_warning section {
+    width: 90%;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 1% auto;
+    padding: 11px 11px 11px 11px;
+    resize: none;
+    border: 1px solid #EEEEEE;
+    box-shadow: 2px 2px 0 #DDDDDD;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.whiteboard_container_queue {
+    height: 700px;
+    width: 600px;
+}
+.whiteboard_container_queue textarea, .whiteboard_container_queue select, .whiteboard_container_queue section {
+    width: 80%;
+    font-size: 16px;
+    line-height: 12px;
+    margin: 1% auto;
+    padding: 11px 11px 11px 11px;
+    resize: none;
+    border: 1px solid #EEEEEE;
+    box-shadow: 2px 2px 0 #DDDDDD;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.whiteboard_container_copy_move_delivery {
+    height: 650px;
+    width: 550px;
+}
+.whiteboard_container_copy_move_delivery img {
+    height: 20%;
+    width: auto;
+}
+.copy_move_delivery_text {
+    height: 5%;
+    width: 90%;
+    margin-top: 1%;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+    border: 1px solid #EEEEEE;
+    box-shadow: 2px 2px 0 #DDDDDD;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.whiteboard_container_copy_move_delivery textarea, .whiteboard_container_copy_move_delivery select {
+    width: 90%;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 1%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 11px 11px 11px 11px;
+    resize: none;
+    border: 1px solid #EEEEEE;
+    box-shadow: 2px 2px 0 #DDDDDD;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.whiteboard_container_new_delivery {
+    height: 800px;
+    width: 1100px;
+    margin-top: 2%;
+}
+.whiteboard_container_new_target {
+    height: 550px;
+    width: 600px;
+    font-size: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.whiteboard_container_new_target textarea, .whiteboard_container_new_target select {
+    width: 85%;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 1% auto;
+    padding: 11px 11px 11px 11px;
+    resize: none;
+    cursor: pointer;
+    border: 1px solid #EEEEEE;
+    box-shadow: 2px 2px 0 #DDDDDD;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.dls_settings_row {
+    height: 10%;
+    width: 90%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
+    border: 1px solid black;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.dls_checkbox_text {
+    height: 100%;
+    width: 67%;
+    margin-left: 2%;
+    float: left;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+.dls_checkbox {
+    height: 100%;
+    width: 30%;
+    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dls_label {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.dls_input {display:none;}
+.dls_slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.dls_slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.dls_input:checked + .dls_slider {
+  background-color: #2196F3;
+}
+.dls_input:focus + .dls_slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+.dls_input:checked + .dls_slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.dls_slider.dls_round {
+  border-radius: 34px;
+}
+.dls_slider.dls_round:before {
+  border-radius: 50%;
+}
+.dls_checkbox_select {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    cursor: pointer;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 18px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.dls_button {
+    height: 10%;
+    width: 30%;
+    margin: auto;
+
+    font-weight: bold;
+    font-style: normal;
+    font-size: 18px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.close_window_div {
+    height: 25px;
+    width: 100%;
+}
+.close_window_div img {
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+    float: right;
+}
+.close_window {
+    z-index: 9999;
+    float: right;
+    width: 25px;
+    height: 25px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    line-height: 26px;
+    cursor: pointer;
+}
+
+.place_in_queue_entry {
+    height: 90%;
+    width: 40%;
+    float: left;
+}
+.place_in_queue_entry textarea , place_in_queue_entry select {
+    width: 73%;
+    border: 1px solid #EEEEEE;
+    box-shadow: 2px 2px 0 #DDDDDD;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 1% auto;
+    padding: 11px 11px 11px 11px;
+    resize: none;
+    cursor: pointer;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.place_in_queue_process {
+    height: 90%;
+    width: 26%;
+    margin-left: 1%;
+    float: left;
+}
+.place_in_queue_process p {
+    text-align: left;
+}
+
+.place_in_queue_template {
+    height: 90%;
+    width: 30%;
+    float: right;
+}
+.place_in_queue_template p {
+    text-align: left;
+}
+
+.new_delivery_entry_center {
+    width: 100%;
+    height: 7%;
+    font-size: 20px;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.new_delivery_entry_left {
+    width: 48%;
+    height: 80%;
+    margin-left: 1%;
+    background-color: #f5f5f5;
+    float: left;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.new_delivery_entry_right {
+    width: 48%;
+    height: 80%;
+    margin-right: 1%;
+    background-color: #f5f5f5;
+    float: right;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.new_delivery_entry_title {
+    width: 100%;
+    float: left;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.new_delivery_entry_left textarea , new_delivery_entry_left select {
+    width: 73%;
+    border: 1px solid #EEEEEE;
+    box-shadow: 2px 2px 0 #DDDDDD;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 1% auto;
+    padding: 11px 11px 11px 11px;
+    resize: none;
+    cursor: pointer;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.new_delivery_entry_right textarea, new_delivery_entry_right select {
+    height: 25%;
+    width: 73%;
+    border: 1px solid #EEEEEE;
+    box-shadow: 2px 2px 0 #DDDDDD;
+    display: block;
+    font-family: 'Marck Script',cursive;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 1% auto;
+    padding: 11px 11px 0 11px;
+    resize: none;
+    cursor: pointer;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+@media only screen and (max-width: 1510px) {
+    .kaqueue {
+        width: 100%;
+        height: 77%;
+        margin: auto;
+    }
+    .deliverylist_header {
+        height: 20px;
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 22px;
+    }
+    .deliverylist_explanation {
+        display: none;
+    }
+    .deliverylist_settings {
+        width: 4%;
+    }
+    .deliverylist_target_buttons {
+        width: 40%;
+    }
+    .deliverylist_target_buttons button {
+        font-size: 16px;
+    }
+    .deliverylist_target_name {
+        width: 30%;
+    }
+    .deliverylist_target_selector {
+        font-size: 18px;
+    }
+    .deliverylist_add_new_delivery {
+        width: 20%;
+    }
+    .deliverylist_add_new_delivery button {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    header {
+        height: 90px;
+        width: 100%;
+    }
+    .arris_logo_wrapper {
+        height: 100%;
+        width: 30%;
+    }
+    .arris_logo_wrapper img {
+        height: auto;
+        width: 100%;
+    }
+    .page_selector {
+        width: 50%;
+        overflow: hidden;
+    }
+    .user_info {
+        width: 20%;
+        overflow: hidden;
+    }
+
+    body {
+        height: 100%;
+        padding-top: 90px;
+    }
+    .background_queue_image {
+        display: none;
+    } 
+    .login {
+        width: 70%;
+        height: 40%;
+        margin: auto;
+    }
+    .kaqueue {
+        width: 100%;
+        height: 100%;
+        margin: auto;
+    }
+    .kaqueue_tab li a {
+        display: inline-block;
+        color: black;
+        text-align: center;
+        padding: 10px 12px;
+        text-decoration: none;
+        transition: 0.3s;
+        font-size: 15px;
+    }
+    .kaqueue_tabcontent {
+        border: 1px solid black;
+        overflow: hidden;
+    }
+    .queue_commits {
+        overflow: hidden;
+    }
+    .queue_commits tr {
+        width: 100%;
+        overflow: hidden;
+    }
+    .queue_commits th {
+        overflow: hidden;
+    }
+    .queue_commits td {
+        overflow: hidden;
+        font-size: 12px;
+    }
+
+    .deliverylist_header {
+        display: none;
+    }
+    .deliverylist_explanation {
+        display: none;
+    }
+
+    .whiteboard_container {
+       height: 620px;
+       width: 100%;
+    }
+}
+@media only screen and (max-width: 480px) {
+    header {
+        height: 8%;
+    }
+    .arris_logo_wrapper {
+        height: 30%;
+        width: 100%;
+        float: none;
+    }
+    .arris_logo_wrapper img {
+        height: 90%;
+        width: auto;
+    }
+
+    .page_selector {
+        height: 60%;
+        width: 70%;
+        float: left;
+    }
+    .user_info {
+        height: 60%;
+        width: 29%;
+        float: right;
+    }
+
+    .page_selector a {
+        font-size: 17px;
+    }
+    .user_info p {
+        font-size: 17px;
+    }
+
+    body {
+        height: 100%;
+        padding-top: 10%;
+        background-color: white;
+        border-style: none;
+        text-align: center;
+    }
+
+    .kaqueue, .deliverylist {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+    .kaqueue_tab li a {
+        padding: 4px 6px;
+        font-size: 8px;
+    }
+}
