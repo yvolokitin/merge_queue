@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>KA Queue & Delivery List</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="msapplication-config" content="none">
+    <link rel="shortcut icon" type="image/x-icon" href="">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="manifest" href="icons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- for Bootstrap proper rendering and touch zooming-->
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/select2.min.js"></script>
+    <script src="js/tools.js"></script>
+
+    <!-- ka queue styles -->
+    <link rel="stylesheet" type="text/css" href="css/select2.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+
+<header>
+  <!-- Arris main logo -->
+  <div class="arris_logo_wrapper">
+    <img src="img/arris_logo_white.png" onclick="location.reload(true);"
+         alt="Arris Logo" title="Refresh page"/>
+  </div>
+
+  <div class="page_selector">
+    <div id="page_selector_queue" style="width:33%;">
+      <a id="page_selector_queue_link_id" class="page_selector_queue_link"
+         onclick="change_user_page('kaqueue');"></a>
+    </div>
+    <div id="page_selector_list" style="width:33%;">
+      <a id="page_selector_list_link_id" class="page_selector_list_link"
+         onclick="change_user_page('deliverylist');"></a>
+    </div>
+    <div id="page_selector_svn" style="width:33%;">
+      <a id="page_selector_svn_link_id" class="page_selector_svn_link"
+         onclick="change_user_page('svncommits');"></a>
+    </div>
+    <div id="page_selector_admin" style="width:33%;">
+      <a id="page_selector_admin_link_id" class="page_selector_admin_link"
+         onclick="change_user_page('admin');"></a>
+    </div>
+  </div>
+
+  <div class="user_info">
+    <a id="page_selector_user_info_id" class="page_selector_user_info"
+         onclick="change_user_page('userinfo');"></a>
+  </div>
+</header>
+
+<!-- onload is most often used within the <body> element to execute a script
+     once a web page has completely loaded all content (including images,
+     script files, css files, etc.)
+-->
+<body onLoad="JavaScript:refresh_data();">
+  <!-- hidden link to show place_in_queue block -->
+  <a id="link_place_in_queue_id" href="#place_in_queue" style="display:none;"></a>
+  <!-- hidden link to show deliverylist settings block -->
+  <a id="link_deliverylist_settings_id" href="#dls" style="display:none;"></a>
+  <!-- hidden link to show deliverylist settings block -->
+  <a id="link_admin_settings_id" href="#admin_settings" style="display:none;"></a>
+  <!-- hidden link to add new target for delivery list -->
+  <a id="link_add_new_target_id" href="#new_target" style="display:none;"></a>
+  <!-- hidden link to add new target for delivery list -->
+  <a id="link_add_new_delivery_id" href="#new_delivery" style="display:none;"></a>
+  <!-- hidden link to processing/progress window -->
+  <a id="link_processing_id" href="#processing" style="display:none;"></a>
+  <!-- hidden link to processing/progress window -->
+  <a id="link_warning_id" href="#warning" style="display:none;"></a>
+
+  <!-- hidden link to processing/progress window -->
+  <a id="link_remove_delivery_id" href="#remove_delivery" style="display:none;"></a>
+  <!-- hidden link to processing/progress window -->
+  <a id="link_copy_move_delivery_id" href="#copy_move_delivery" style="display:none;"></a>
+
+  <!-- hidden link to processing/progress window -->
+  <a id="link_edit_approval_status_id" href="#edit_approval" style="display:none;"></a>
+
+  <!-- hidden link to processing/progress window -->
+  <a id="link_remove_target_id" href="#remove_target" style="display:none;"></a>
+
+  <a id="link_add_queue_id" href="#add_queue" style="display:none;"></a>
+
+  <!-- hidden close link window -->
+  <a id="link_close_window" href="#close_window" style="display:none;"></a>
+
+  <!-- background image queue -->
+  <img class="background_queue_image" src="img/queue_1.jpg"/>
+
+  <div id="newsmaker" style="display:none;height:400px;width:180px;position:absolute;top:150px;right:10px;background-color:white;border:1px solid black;">
+  </div>
+
+  <div class="login" style="display:none;">
+    <div class='login_user_image_div'>
+      <img id="login_user_image_id" src="img/user_logo.jpg"
+           alt="User Logo" title="User Logo"/>
+    </div>
+    <input id="login_forms_arris_id" type="text" size="128"
+           class="login_forms_style" placeholder="ARRIS ID"
+           required autofocus/>
+    <input id="login_forms_pswd_id" type="password" size="128"
+           class="login_forms_style" placeholder="COMMON IT PASSWORD"
+           required/>
+
+    <button id="login_button_id" class="login_forms_style"
+            type="button" onclick="login()">LOGIN</button>
+
+    <p id="login_error_id"></p>
+  </div>
+
+  <div class="admin" style="display:none;">
+    <div class="deliverylist_targets">
+      <div class="deliverylist_settings"> <!-- 5%, left -->
+        <img src="img/settings_icon.png" onclick="show_admin_settings();"
+             alt="Admin Merge Queue Settings" title="Admin Merge Queue Settings"/>
+      </div>
+
+      <div class="deliverylist_target_buttons"> <!-- 25%, left -->
+        <button id="deliverylist_target_buttons_create" onclick="add_new_queue(0)">&there4;&#32; ADD NEW MERGE QUEUE &there4;&#32;</button>
+      </div>
+
+      <h2>KAQueue / Delivery List ADMIN Interface</h2>
+    </div>
+
+    <div class="admin_table_div">
+      <table id="admin_kaqueues_table_id">
+        <tr>
+          <th style="width:11%;">Name</th>
+          <th style="width:11%;">Description</th>
+          <th style="width:11%;">Type</th>
+          <th style="width:11%;">Status</th>
+          <th style="width:11%;">Owner</th>
+          <th style="width:11%;">Approvals</th>
+          <th style="width:11%;">Creation Date</th>
+          <th style="width:11%;">Actions</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="kaqueue" style="display:none;">
+    <ul id="kaqueue_tab_id" class="kaqueue_tab"></ul>
+    <div id="kaqueue_table_div_id" class="kaqueue_table_div">
+      <table id="kaqueue_table_id">
+        <tr>
+          <th style="width:10%;">Branch</th>
+          <th style="width:10%;">Merger</th>
+          <th style="width:20%;">Description</th>
+          <th style="width:10%;">JIRA</th>
+          <th style="width:5%;">Review</th>
+          <th style="width:10%;">Build</th>
+          <th style="width:4%;">KATT<br>L1</th>
+          <th style="width:4%;">KATT<br>L2</th>
+          <th style="width:4%;">KATT<br>L98</th>
+          <th style="width:4%;">Smoke<br>test</th>
+          <th style="width:10%;">Changed<br/>(UTC)</th>
+          <th style="width:5%;">Actions</th>
+        </tr>
+      </table>
+      <button id="kaqueue_add_btn_id" class="add_in_queue_styles"
+              type="button" onclick="click_add_in_queue(0, 0, 'KA_trunk');">
+        Place ME in KA_trunk Queue</button>
+      <p id="kaqueue_add_msg_id">All deliveries here are from KA Delivery List.</p>
+    </div>
+  </div>
+
+  <!-- 777 -->
+  <div class="deliverylist" style="display:none;">
+    <div class="deliverylist_header">
+        This page contains tickets requested &frasl; approved for delivery to KA maint branches
+    </div>
+    <div class="deliverylist_explanation">
+      <ul>
+        <li>Team leads or developers add additional requests here by
+        selecting the desired target and then using the Add a new row button
+        at the bottom of the table</li>
+        <li>Approval to deliver is required by the Project Owner of the maint
+        branch (no approvals needed for KA trunk deliveries)</li>
+        <li>Once approved the ticket can be entered directly to the merge
+        queue using the Place in Queue button</li>
+      </ul>
+    </div>
+
+    <div class="deliverylist_targets">
+      <div class="deliverylist_settings"> <!-- 5%, left -->
+        <img src="img/settings_icon.png" onclick="show_deliverylist_settings();"
+             alt="Delivery List Settings" title="Delivery List Settings"/>
+      </div>
+
+      <div class="deliverylist_settings"> <!-- 5%, left -->
+        <img src="img/target_icon2.png" alt="Select Target" title="Select Target"/>
+      </div>
+
+      <div class="deliverylist_target_buttons"> <!-- 25%, left -->
+        <button id="deliverylist_target_buttons_create" onclick="add_new_target(0)">&there4;&#32;CREATE</button>
+        <button id="deliverylist_target_buttons_delete">DELETE</button>
+        <button id="deliverylist_target_buttons_edit">EDIT</button>
+        <button id="deliverylist_target_buttons_archive">ARCHIVE</button>
+      </div>
+
+      <div class="deliverylist_target_name"> <!-- 30%, left -->
+        <select id="deliverylist_target_select_id" class="deliverylist_target_selector"
+                onchange="deliverylist_select_event()">
+        </select>
+      </div>
+
+      <div class="deliverylist_add_new_delivery"> <!-- 30%, right -->
+        <button onclick="add_new_delivery(0)">&#43;&#32;ADD NEW DELIVERY</button>
+      </div>
+    </div>
+
+    <table id="deliverylist_table_id" class="deliverylist_table_style">
+      <tr>
+        <th style="width:10%;">Approval status</th>
+        <th style="width:8%;">JIRA</th>
+        <th style="width:4%;">Review</th>
+        <th style="width:20%;">JIRA Summary Title</th>
+        <th style="width:20%;">Delivery Comments</th>
+        <th style="width:5%;">Assignee</th>
+        <th style="width:4%;">JIRA Priority</th>
+        <th style="width:4%;">Customer Priority</th>
+        <th style="width:4%;">Functional Area</th>
+        <th style="width:4%;">Regression?</th>
+        <th style="width:10%;">Additional Comments</th>
+        <th style="width:7%;">Actions</th>
+      </tr>
+    </table>
+  </div>
+
+  <div class="svncommits" style="display:none;">
+    <h2>This page shows SVN commits per branch<br>(under development)</h2>
+  </div>
+
+  <div class="userinfo" style="display:none;background:white;">
+    <h2>User Information</h2>
+    <div style="width:40%;height:80%;float:left;">
+      <img src="img/user_logo.jpg" alt="User Logo" title="User Logo"/>
+    </div>
+    <div class="userinfo_table_div">
+      <table style="">
+        <tr>
+          <td>Title</td>
+          <td id="userinfo_title_id"></td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td id="userinfo_name_id"></td>
+        </tr>
+        <tr>
+          <td>Arris Id</td>
+          <td id="userinfo_arris_id"></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td id="userinfo_email_id"></td>
+        </tr>
+        <tr>
+          <td>LDAP user department ID</td>
+          <td id="userinfo_department_id"></td>
+        </tr>
+        <tr>
+          <td>User type</td>
+          <td id="userinfo_type_id"></td>
+        </tr>
+      </table>
+    </div>
+
+    <button id="logout_button_id" class="login_forms_style"
+            type="button" onclick="logout();">LOGOUT</button>
+  </div>
+
+  <div id="admin_settings" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_dls">
+      <div class="close_window_div">
+        <img src="img/button_close.png" onclick="click_close_window();"/>
+        <img src="img/button_question.png" onclick="alert('Need a help :-) ?');"/>
+      </div>
+
+      <h1>ADMIN Interface Settings</h1>
+      <h2>Settings will be used to filter merge queue data</h2>
+
+      <div class="dls_settings_row">
+        <div class="dls_checkbox_text">
+          Hide / Show Inactive queues
+        </div>
+        <!-- on/off toggle switch  -->
+        <div class="dls_checkbox">
+          Hide<label class="dls_label">
+            <input id="admin_checkbox_id" class="dls_input" type="checkbox">
+            <div class="dls_slider dls_round"></div>
+          </label>Show
+        </div>
+      </div>
+
+      <button id="dls_button_id" class="dls_button"
+              type="button" onclick="save_admin_settings()">SAVE</button>
+    </div>
+  </div>
+
+  <div id="dls" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_dls">
+      <div class="close_window_div">
+        <img src="img/button_close.png" onclick="click_close_window();"/>
+        <img src="img/button_question.png" onclick="alert('Need a help :-) ?');"/>
+      </div>
+
+      <h1>Delivery List Settings</h1>
+      <h2>Settings will be used to filter delivery list data</h2>
+
+      <div class="dls_settings_row">
+        <div class="dls_checkbox_text">
+          Hide / Show Archived targets
+        </div>
+        <!-- on/off toggle switch  -->
+        <div class="dls_checkbox">
+          Hide<label class="dls_label">
+            <input id="dls_checkbox_id" class="dls_input" type="checkbox">
+            <div class="dls_slider dls_round"></div>
+          </label>Show
+        </div>
+      </div>
+
+      <div class="dls_settings_row">
+        <div class="dls_checkbox_text">
+          Show targets created
+        </div>
+        <div class="dls_checkbox">
+          <select id="dls_settings_age" class="dls_checkbox_select">
+            <option value="one">1 month</option>
+            <option value="three">3 month</option>
+            <option value="half">6 month</option>
+            <option value="year">1 year</option>
+            <option value="two_years">2 years</option>
+            <option value="three_years">3 years</option>
+            <option value="eternity">eternity</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dls_settings_row">
+        <div class="dls_checkbox_text">Show targets from Queue</div>
+        <div class="dls_checkbox">
+          <select id="dls_settings_queue" class="dls_checkbox_select"></select>
+        </div>
+      </div>
+
+      <div class="dls_settings_row">
+        <div class="dls_checkbox_text">Show only MY targets (disabled)</div>
+        <!-- on/off toggle switch  -->
+        <div class="dls_checkbox">
+          Yes<label class="dls_label">
+            <input id="dls_checkbox_my_targets" disabled class="dls_input" type="checkbox">
+            <div class="dls_slider dls_round"></div>
+          </label>No
+        </div>
+      </div>
+
+      <button id="dls_button_id" class="dls_button"
+              type="button" onclick="dls_save();">SAVE</button>
+    </div>
+  </div>
+
+  <div id="place_in_queue" class="place_in_queue_div">
+    <div class="whiteboard_container">
+      <div class="close_window_div">
+        <img src="img/button_close.png" onclick="click_close_window();"/>
+        <img src="img/button_question.png" onclick="alert('Need a help :-) ?');"/>
+      </div>
+
+      <div class="place_in_queue_entry">
+        <input id='place_in_queue_merge_id' type="hidden" value="0">
+        <input id='place_in_queue_delivery_id' type="hidden" value="0">
+        <input id='place_in_queue_queue' type="hidden" value="0">
+
+        <div class="new_delivery_entry_title">JIRA ticket:</div>
+        <textarea id='place_in_queue_jira' autofocus maxlength=1024 rows=1 cols=40></textarea>
+        <div class="new_delivery_entry_title">JIRA description/title:</div>
+        <textarea id='place_in_queue_description' maxlength=2048 rows=6 cols=40></textarea>
+        <div class="new_delivery_entry_title">Review link:</div>
+        <textarea id='place_in_queue_review' maxlength=1024 rows=1 cols=40></textarea>
+        <div class="new_delivery_entry_title">Assignee:</div>
+        <textarea id='place_in_queue_email' maxlength=1024 rows=1 cols=40></textarea>
+        <div class="new_delivery_entry_title">Branch name:</div>
+        <div style='width:100%;height:15%;'>
+          <input style='width:80%;text-align:left;' type='hidden' id='place_in_queue_branch_selector'>
+          <script>activateBranchSelector('place_in_queue_branch_selector');</script>
+        </div>
+
+        <button class="add_in_queue_styles" type="button" onclick="save_in_queue();">save</button>
+      </div>
+
+      <div class="place_in_queue_process">
+        <p>KA Process - SVN Delivery Template:</p>
+        <p>New functionality:<br/>* None</p>
+        <p>Solved bugs:<br/>* KATV-nnnnn - Description";</p>
+        <p>REVIEW:12345</p>
+        <p>Known bugs:<br/>* None, OR [KATV]-mmmm</p>
+        <p>Interface changes:<br/>* None</p>
+        <p>Smoke tests: OK</p>
+        <p>KATT tests: OK</p>
+      </div>
+
+      <div class="place_in_queue_template">
+        <p>Use the template specified for committing changes to SVN</p>
+        <p>New functionality:<br/>Refer to new feature, CFRCPE, or New Work JiRA Ticket</p>
+        <p>Solved bugs:<br/>If fixing defects, use this field to list JIRA ticket and correponsing review</p>
+        <p>Known bugs:<br/>USE [KATV]-mmmm format, this will prevent automatic JIRA commit updates for tickets listed under known issues.</p>
+        <p>Interface changes:<br/>List any interface (API/IDL) changes</p>
+        <p>Smoke tests:<br/>Results of Smoke Test - this is required to be OK</p>
+        <p>KATT tests: OK<br/>KATT Results, required to be OK or known issue</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="new_delivery" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_new_delivery">
+      <div class="close_window_div">
+        <img src="img/button_close.png" onclick="click_close_window();"/>
+        <img src="img/button_question.png" onclick="alert('Need a help :-) ?');"/>
+      </div>
+
+      <input id='new_delivery_id' type="hidden" value="0">
+      <input id='new_delivery_target_id' type="hidden" value="0">
+      <input id='new_delivery_target_name' type="hidden" value="0">
+
+      <div id='new_delivery_title' class="new_delivery_entry_center"></div>
+
+      <div class="new_delivery_entry_left">
+        <div class="new_delivery_entry_title">JIRA ticket:<br>use comma to specify a couple bugs</div>
+        <textarea id='new_delivery_jira' autofocus maxlength=1024 rows=1 cols=40></textarea>
+
+        <div class="new_delivery_entry_title">JIRA Summary:</div>
+        <textarea id='new_delivery_description' maxlength=2048 rows=6 cols=40
+                  placeholder="Please, provide JIRA title and summary here"></textarea>
+
+        <div class="new_delivery_entry_title">Review link:</div>
+        <textarea id='new_delivery_review' maxlength=1024 rows=1 cols=40></textarea><br>
+
+        <div style="width:33%;float:left;">
+          <div class="new_delivery_entry_title">JIRA<br>Priority:</div>
+          <select id='new_delivery_jira_priority' style='width:90%;'>
+            <option value='Blocker'>Blocker</option>
+            <option value='Critical'>Critical</option>
+            <option value='Major'>Major</option>
+            <option value='Normal'>Normal</option>
+            <option value='Minor'>Minor</option>
+            <option value='Trivial'>Trivial</option>
+          </select>
+        </div>
+
+        <div style="width:33%;float:left;">
+          <div class="new_delivery_entry_title">Customer<br>Priority:</div>
+          <select id='new_delivery_customer_priority' style='width:90%;'>
+            <option value=''></option>
+            <option value='Blocker'>Blocker</option>
+            <option value='Critical'>Critical</option>
+            <option value='Major'>Major</option>
+            <option value='Normal'>Normal</option>
+            <option value='Minor'>Minor</option>
+            <option value='Trivial'>Trivial</option>
+          </select>
+        </div>
+
+        <div style="width:33%;float:left;">
+          <div class="new_delivery_entry_title">Regression<br>?</div>
+          <select id='new_delivery_regression' style='width:90%;'>
+            <option value='No'>No</option>
+            <option value='Yes'>Yes</option>
+          </select>
+        </div>
+
+        <div class="new_delivery_entry_title">Assignee:</div>
+        <textarea id='new_delivery_email' maxlength=1024 rows=1 cols=40></textarea>
+
+        <div class="new_delivery_entry_title">Branch name:</div>
+        <div style='width:100%;height:15%;'>
+          <input style='width:80%;text-align:left;' type='hidden' id='new_delivery_branch_selector'>
+          <script>activateBranchSelector('new_delivery_branch_selector');</script>
+        </div>
+      </div>
+
+      <div class="new_delivery_entry_right">
+        <div class="new_delivery_entry_title">Functional Area:</div>
+        <select multiple id='new_delivery_functional_area' size='7' style="width:73%;">
+          <option value='KA_HAL'>KA_HAL</option>
+          <option value='KA_Net'>KA_Net</option>
+          <option value='KA_DOWNLOAD'>KA_DOWNLOAD</option>
+          <option value='KA_Browser'>KA_Browser</option>
+          <option value='KA_Streaming'>KA_Streaming</option>
+          <option value='KA_DVR'>KA_DVR</option>
+          <option value='KA_AUDVID'>KA_AUDVID</option>
+          <option value='KA_UI'>KA_UI</option>
+          <option value='KA_CA'>KA_CA</option>
+          <option value='KA_CC'>KA_CC</option>
+          <option value='KA_Diags'>KA_Diags</option>
+          <option value='KA_STAB'>KA_STAB</option>
+          <option value='KA_SrvAcq'>KA_SrvAcq</option>
+          <option value='KA_DLNA'>KA_DLNA</option>
+          <option value='KA_DVT'>KA_DVT</option>
+          <option value='KA-MotoPlyr'>KA-MotoPlyr</option>
+          <option value='ATG Common Development'>ATG Common Development</option>
+          <option value='AlphaVBlocker'>AlphaVBlocker</option>
+          <option value='MTV Blocker'>MTV Blocker</option>
+          <option value='FOAVBlocker'>FOAVBlocker</option>
+        </select>
+
+        <div class="new_delivery_entry_title">Additional Comments:</div>
+        <textarea id='new_delivery_additional_comments' maxlength=2048 rows=6 cols=40
+                  placeholder="Please, provide additional comments here"></textarea>
+
+        <div class="new_delivery_entry_title">Delivery Comments:</div>
+        <textarea id='new_delivery_delivery_comments' maxlength=2048 rows=6 cols=40
+                  placeholder="Please, provide delivery comments here"></textarea>
+      </div>
+
+      <div class="new_delivery_entry_center">
+        <button class="add_in_queue_styles" type="button" onclick="save_in_delivery_list();">save</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="processing" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_processing">
+      <p style="color:white;font-size:24px;">Retrieving data from server ...</p>
+      <img src="img/spinner.gif" alt="reading data">
+    </div>
+  </div>
+
+  <div id="warning" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_warning">
+      <img src="img/no_data_icon.png" style="height:177px;margin:15px;" alt="No data" title="No data">
+      <p id="warning_text_id" style="font-size:24px;margin:15px;"></p>
+      <!--<img src="img/spinner.gif" alt="No data" title="No data">-->
+      <button class="add_in_queue_styles" type="button" onclick="click_close_window()">OK</button>
+    </div>
+  </div>
+
+  <div id="remove_delivery" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_warning">
+      <div class="close_window_div">
+        <img src="img/button_close.png" onclick="click_close_window();"/>
+        <img src="img/button_question.png" onclick="alert('Need a help :-) ?');"/>
+      </div>
+
+      <input id='removal_delivery_id' type="hidden" value="0">
+      <img src="img/question_icon.png" style="height:177px;margin:15px;" alt="No data" title="No data">
+
+      <p id='removal_delivery_jira' style="font-size:16px;margin:15px;"></p>
+      <p id='removal_delivery_description' style="font-size:16px;margin:15px;text-align:left;background-color:#f1f1f1;border:1px solid black;"></p>
+      <p id="removal_delivery_creator" style="font-size:16px;margin:15px;"></p>
+
+      <p id="remove_text_id" style="font-size:22px;margin:15px;">Do you want to remove it?</p>
+      <button class="add_in_queue_styles" type="button" onclick="remove_delivery_from_target()">YES</button>
+      <button class="add_in_queue_styles" type="button" onclick="click_close_window()">NO</button>
+
+    </div>
+  </div>
+
+  <div id="copy_move_delivery" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_copy_move_delivery">
+      <div class="close_window_div">
+        <img src="img/button_close.png" onclick="click_close_window();"/>
+        <img src="img/button_question.png" onclick="alert('Need a help :-) ?');"/>
+      </div>
+
+      <input id='copy_move_delivery_id' type="hidden" value="0">
+      <input id='copy_move_delivery_action' type="hidden" value="0">
+
+      <div id='copy_move_delivery_title' style="font-size:18px;text-align:center;"></div>
+      <img src="img/copy_delivery.png">
+
+      <div id='copy_move_delivery_jira' class="copy_move_delivery_text"></div>
+      <textarea id='copy_move_delivery_description' disabled maxlength=2048 rows=6 cols=40></textarea>
+      <div id='copy_move_delivery_creator' class="copy_move_delivery_text"></div>
+
+      <br><p style="font-size:22px;margin:15px;">Please, choose target destination:</p>
+      <select id="copy_move_delivery_target_selector"></select>
+
+      <button id='copy_move_delivery_btn' class="add_in_queue_styles" type="button" onclick="copy_move_delivery_from_target()"></button>
+    </div>
+  </div>
+
+  <div id="new_target" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_new_target">
+      <div class="close_window_div">
+        <img src="img/button_close.png" onclick="click_close_window();"/>
+        <img src="img/button_question.png" onclick="alert('Please, specify a new target name, preferable queue (from list of active KA Queues) and list everybody, who will receive email notifications about target entries.')"/>
+      </div>
+
+      <input id='new_target_id' type="hidden" value="0">
+
+      <div id='new_target_action_message' style='display:none;margin-top:3%;'></div>
+      <div id='new_target_title_id' style='margin-top:3%;'></div>
+      <textarea id='new_target_name_id' class='new_target_name' placeholder="Enter a new target name here"
+                autofocus maxlength=1024 rows=1 cols=40></textarea>
+
+      <div style="margin-top:3%;">Preferred queue:</div>
+      <select id="new_target_queue_id" onchange="kaqueue_select_event()">
+      </select>
+
+      <div style="margin-top:3%;">List of subscribers:</div>
+      <textarea id='new_target_subscribers_id' class="new_target_subscribers" maxlength=2048 rows=9 cols=40></textarea>
+
+      <div class="new_delivery_entry_center" style="margin-top:3%;">
+        <button class="add_in_queue_styles" type="button" onclick="save_new_target();">save</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="add_queue" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_queue">
+      <div class="close_window_div">
+        <img src="img/button_close.png" onclick="click_close_window();"/>
+        <img src="img/button_question.png" onclick="alert('Need a help :-) ?');"/>
+      </div>
+
+      <input id='add_queue_id' type="hidden" value="0">
+      <div style='margin-top:3%;'>Merge Queue name:</div>
+      <textarea id='add_queue_name_id' class='new_target_name'
+                placeholder="Enter a new merge queue name here"
+                autofocus maxlength=1024 rows=1 cols=40></textarea>
+
+      <div style="margin-top:2%;">Type of Merge Queue:</div>
+      <select id="add_queue_type_id">
+        <option value="FREE">Free</option>
+        <option value="MANAGED">Managed</option>
+      </select>
+
+      <div style="margin-top:2%;">Merge Queue description:</div>
+      <textarea id='add_queue_description_id' class="new_target_subscribers"
+                placeholder="Enter a new merge queue description"
+                maxlength=2048 rows=9 cols=40></textarea>
+      <!--
+      <div style="margin-top:2%;">Email Subscribers (optional):</div>
+      <textarea id='add_queue_subscribers_id' class="new_target_subscribers"
+                placeholder="List of Emails who will receive notifications"
+                maxlength=2048 rows=9 cols=40></textarea>
+      -->
+      <div style="margin-top:2%;">Merge Queue Approvals:</div>
+      <textarea id='add_queue_approvals_id' class="new_target_subscribers"
+                placeholder="Provide a list of ArrisId employees, who will be allowed to approve deliveries in that queue (for example: rrementilla, ajost). By default, only queue owner has approval permission."
+                maxlength=2048 rows=9 cols=40></textarea>
+
+      <div class="new_delivery_entry_center" style="margin-top:2%;">
+        <button class="add_in_queue_styles" type="button" onclick="save_new_queue()">save</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="remove_target" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_warning">
+      <div class="close_window_div">
+        <img src="img/button_close.png" onclick="click_close_window();"/>
+        <img src="img/button_question.png" onclick="alert('Need a help :-) ?');"/>
+      </div>
+
+      <input id='removal_target_id' type="hidden" value="0">
+      <input id='removal_target_name' type="hidden" value="0">
+      <img src="img/question_icon.png" style="height:177px;margin:15px;" alt="No data" title="No data">
+
+      <p style="font-size:18px;margin:15px;text-align:left;">Removal of target from delivery list will delete all deliveries (if have), which were included in that target</p>
+      <p id="remove_target_text_id" style="font-size:22px;margin:15px;"></p>
+      <button class="add_in_queue_styles" type="button" onclick="remove_target_from_db()">YES</button>
+      <button class="add_in_queue_styles" type="button" onclick="click_close_window()">NO</button>
+    </div>
+  </div>
+
+  <div id="edit_approval" class="place_in_queue_div">
+    <div class="whiteboard_container whiteboard_container_warning">
+      <div class="close_window_div">
+        <img src="img/button_close.png" onclick="click_close_window();"/>
+        <img src="img/button_question.png" onclick="alert('Need a help :-) ?');"/>
+      </div>
+
+      <input id='edit_approval_delivery_id' type="hidden" value="0">
+      <img src="img/approval_status_icon.png" style="height:25%;width:auto;" alt="No data" title="No data">
+
+      <section style="text-align:left;background-color:#e6e6e6;">
+        <ul>Please, select one of the four values values:<br>
+          <li>Not approved</li>
+          <li>Good to go</li>
+          <li>Delivered, XXXXXX - where XXXXXX is SVN revision number</li>
+          <li>In queue</li>
+        </ul>
+      </section>
+
+      <div style="margin-top:3%;">Select a New Approval Status value:</div>
+      <select id="edit_approval_status_value_id" onchange="approval_status_select_event()">
+        <option value="Not approved">Not Approved</option>
+        <option value="Good to GO">Good to GO</option>
+        <option value="In queue">In Queue</option>
+        <option value="Delivered">Delivered</option>
+      </select>
+
+      <textarea id='edit_approval_status_revision_id' maxlength=6 rows=1 cols=20
+                placeholder="revision number" style="visibility:hidden;"></textarea>
+
+      <button class="add_in_queue_styles" type="button"
+              onclick="change_delivery_approval_status()">SAVE</button>
+
+    </div>
+  </div>
+
+</body>
+</html>
